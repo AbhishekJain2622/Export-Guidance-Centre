@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 0 90% 45%; /* Red from logo */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 14% 80%; /* Silver/gray from logo */
+    --secondary-foreground: 220 14% 20%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 0 90% 45%; /* Red from logo */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 0 90% 45%; /* Red from logo */
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 0 90% 45%; /* Red from logo */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 0 90% 45%; /* Red from logo */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 0 90% 45%; /* Red from logo */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom styles */
+.gradient-bg {
+  background: linear-gradient(135deg, #e60000 0%, #ff3333 100%);
+}
+
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.service-card {
+  border-top: 4px solid #e60000;
+  transition: all 0.3s ease;
+}
+
+.service-card:hover {
+  border-top: 4px solid #ff3333;
+  transform: translateY(-5px);
+}
+
+.testimonial-card {
+  background-color: #f8fafc;
+  border-left: 4px solid #e60000;
+}
+
+.video-card {
+  overflow: hidden;
+}
+
+.video-card img {
+  transition: transform 0.5s ease;
+}
+
+.video-card:hover img {
+  transform: scale(1.05);
+}
+
+.hexagon {
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  background-color: #e60000;
+}
+
+.curved-path {
+  position: relative;
+}
+
+.curved-path::before {
+  content: "";
+  position: absolute;
+  top: -30px;
+  right: -10px;
+  width: 100px;
+  height: 60px;
+  background-color: #a0a0a0;
+  border-radius: 50% 50% 0 0;
+  transform: rotate(45deg);
+  z-index: -1;
+}
+
+.silver-gradient {
+  background: linear-gradient(135deg, #a0a0a0 0%, #d4d4d4 50%, #a0a0a0 100%);
+}
