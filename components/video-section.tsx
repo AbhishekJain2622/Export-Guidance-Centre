@@ -47,7 +47,7 @@ export function VideoSection() {
       description: "Discover effective strategies for entering new international markets.",
       thumbnail: "/09.png",
       url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      language: "Hindi",
+      language: "English",
       category: "Strategy",
     },
     {
@@ -65,7 +65,7 @@ export function VideoSection() {
       description: "Learn how to calculate export prices and manage costs effectively.",
       thumbnail: "/08.png",
       url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      language: "Marathi",
+      language: "English",
       category: "Finance",
     },
     // {
@@ -241,7 +241,7 @@ export function VideoSection() {
                 ))}
               </div>
 
-              <div className="flex flex-wrap gap-2 justify-center">
+              {/* <div className="flex flex-wrap gap-2 justify-center">
                 <h3 className="text-lg font-medium mr-2 w-full text-center mb-2">Filter by Language:</h3>
                 {languages.map((language) => (
                   <Button
@@ -253,7 +253,7 @@ export function VideoSection() {
                     {language === "all" ? "All Languages" : language}
                   </Button>
                 ))}
-              </div>
+              </div> */}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

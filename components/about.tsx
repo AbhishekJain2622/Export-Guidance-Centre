@@ -51,11 +51,10 @@ export function About() {
             </p>
             <p className="text-gray-700 mb-4">
               Some industrialists desired to get knowledge in export and hence started in-house training (class-room) at
-              Mulund, Thane and Andheri. Some industrialists desired to have in-house training for their staff.
+              Mulund, Thane and Andheri.
             </p>
             <p className="text-gray-700">
-              College students were trained in export-import courses and they benefited by getting sufficient knowledge
-              of export trade. Recently, we completed our in-house program under the encouragement of Shri Siddharth
+             Recently, we completed our in-house program under the encouragement of Shri Siddharth
               Sinkar, CA IT practitioner and Founder of Saraswat Chamber of Commerce.
             </p>
           </div>

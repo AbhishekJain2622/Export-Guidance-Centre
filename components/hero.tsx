@@ -53,7 +53,7 @@ export function Hero() {
               </Button>
               <Button
                 variant="outline"
-                className="border-white text-white hover:bg-red-700"
+                className="border-white bg-red-700 text-white hover:bg-red-700"
                 onClick={() => {
                   const contactSection = document.querySelector("#contact")
                   if (contactSection) {
@@ -72,11 +72,11 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <div className="relative">
-              <div className="absolute -inset-4 bg-white/20 rounded-lg blur-xl"></div>
+              <div className="absolute -inset-4 bg-white/20  blur-xl"></div>
               <img
                 src="/06.jpg?key=hp76f"
                 alt="Export Guidance Centre"
-                className=" w-full h-[600px]  rounded-lg shadow-2xl relative z-10"
+                className=" w-full h-[600px] shadow-2xl relative z-10"
               />
             </div>
           </motion.div>

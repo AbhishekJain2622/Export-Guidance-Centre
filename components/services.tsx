@@ -73,7 +73,7 @@ export function Services() {
                   <div>
                     <h4 className="font-medium">Video Lessons</h4>
                     <p className="text-sm text-gray-600">
-                      Chapter-wise knowledge videos in English, Hindi, and Marathi
+                     Segment-wise knowledge videos in English only.
                     </p>
                   </div>
                 </div>
