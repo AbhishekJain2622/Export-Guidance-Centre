@@ -10,11 +10,7 @@ export function Services() {
     <div className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <div className="flex justify-center mb-4">
-            <div className="hexagon w-16 h-16 flex items-center justify-center">
-              <span className="text-white font-bold text-2xl">EGC</span>
-            </div>
-          </div>
+         
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Online Course</h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             We are introducing an online course that will benefit all participants who want to make a career in the

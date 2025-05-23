@@ -90,7 +90,21 @@ export function Footer() {
         </div>
 
         <div className="border-t border-gray-800 pt-8 text-center">
-          <p className="text-gray-400">&copy; {currentYear} Export Guidance Centre (Mumbai). All rights reserved.</p>
+ <p>
+  © {new Date().getFullYear()}{" "}
+  <span style={{ color: "rgb(211, 47, 47)" }}>Export Guidance Centre.</span>{" "}
+  Powered by{" "}
+  <a
+    href="https://codestudios.in/"
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{ color: "rgb(211, 47, 47)" }}
+    className="hover:text-white transition-colors"
+  >
+    Code Studio
+  </a>{" "}
+  All rights reserved.
+</p>
         </div>
       </div>
     </footer>

@@ -47,15 +47,7 @@ export function Contact() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <div className="flex justify-center mb-4">
-            <div className="w-16 h-16 relative">
-              <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/298915443_393765499581153_4128083252396595327_n-Fl6acizhj9F7x7udYSEhxOdSgOQiPa.png"
-                alt="EGC Guidance Logo"
-                width={64}
-                height={64}
-                className="object-contain"
-              />
-            </div>
+           
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Contact Us</h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -84,7 +76,7 @@ export function Contact() {
                 <Phone className="h-6 w-6 text-red-600 mr-4 mt-1" />
                 <div>
                   <h4 className="text-lg font-medium text-gray-900">Phone</h4>
-                  <p className="text-gray-700">+91 22 1234 5678</p>
+                  <p className="text-gray-700">+91 9987597435<br></br>+91 70217 87294</p>
                 </div>
               </div>
 
@@ -95,28 +87,17 @@ export function Contact() {
                   <p className="text-gray-700">
                     Export Guidance Centre
                     <br />
-                    123 Trade Avenue, Andheri East
+                    7th block 1st floor Anand CHS bhoir nagar
+                    <br /> vadhyalya road 
                     <br />
-                    Mumbai, Maharashtra 400069
-                    <br />
-                    India
+                   Mulund East 400081
+                  
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="mt-8 p-6 bg-red-50 rounded-lg border border-red-100">
-              <h4 className="text-lg font-semibold text-red-800 mb-2">Enroll in Our Online Course</h4>
-              <p className="text-gray-700 mb-4">
-                For enrollment in our online export-import course, please send us an email with your details.
-              </p>
-              <p className="text-red-800 font-medium">
-                Email:{" "}
-                <a href="mailto:exportguidancecenter@gmail.com" className="text-red-600 underline">
-                  exportguidancecenter@gmail.com
-                </a>
-              </p>
-            </div>
+           
           </div>
 
           <div>

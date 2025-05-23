@@ -49,11 +49,12 @@ export function About() {
               problems, especially in export promotion schemes. We enjoy their patronage on account of our efficient
               services.
             </p>
+            <br />
+              <br />
+            
             <p className="text-gray-700 mb-4">
               Some industrialists desired to get knowledge in export and hence started in-house training (class-room) at
               Mulund, Thane and Andheri.
-            </p>
-            <p className="text-gray-700">
              Recently, we completed our in-house program under the encouragement of Shri Siddharth
               Sinkar, CA IT practitioner and Founder of Saraswat Chamber of Commerce.
             </p>
