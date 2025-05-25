@@ -14,6 +14,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { motion, AnimatePresence } from "framer-motion"
+import JSZip from "jszip"
+import { saveAs } from "file-saver"
 
 interface VideoSegment {
   id: string
@@ -38,6 +40,7 @@ export function VideoSection() {
   const [selectedSegment, setSelectedSegment] = useState<VideoSegment | null>(null)
   const [showVideoModal, setShowVideoModal] = useState(false)
   const [videoUnlocked, setVideoUnlocked] = useState(false)
+  const [downloadingAll, setDownloadingAll] = useState(false)
 
   const correctPassword = "export2023"
 
@@ -112,6 +115,30 @@ export function VideoSection() {
     alert(`Downloading ${document.title}`)
   }
 
+  // Download all PDFs as a zip
+  const handleDownloadAll = async () => {
+    if (!selectedSegment) return
+    setDownloadingAll(true)
+    const zip = new JSZip()
+    const folder = zip.folder(selectedSegment.title.replace(/\s+/g, "_")) || zip
+
+    await Promise.all(
+      selectedSegment.documents.map(async (doc) => {
+        try {
+          const response = await fetch(doc.fileUrl)
+          const blob = await response.blob()
+          folder.file(doc.title.replace(/\s+/g, "_") + ".pdf", blob)
+        } catch (e) {
+          // Optionally handle errors
+        }
+      })
+    )
+
+    const content = await zip.generateAsync({ type: "blob" })
+    saveAs(content, `${selectedSegment.title.replace(/\s+/g, "_")}_resources.zip`)
+    setDownloadingAll(false)
+  }
+
   return (
     <div className="py-16 bg-white">
       <div className="container mx-auto px-4">
@@ -177,7 +204,18 @@ export function VideoSection() {
                     {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                    <div className="flex justify-end mb-4">
+                      <Button
+                        variant="default"
+                        className="bg-green-600 hover:bg-green-700"
+                        onClick={handleDownloadAll}
+                        disabled={downloadingAll}
+                      >
+                        <Download className="h-4 w-4 mr-2" />
+                        {downloadingAll ? "Preparing ZIP..." : "Download All PDFs (ZIP)"}
+                      </Button>
+                    </div>
+                    {/* <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
                       <Download className="h-5 w-5 text-green-600" /> Download Resources
                     </h3>
                     <p className="text-gray-600 mb-4">All supporting documents are free to download.</p>
@@ -197,7 +235,7 @@ export function VideoSection() {
                           </CardFooter>
                         </Card>
                       ))}
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </CardContent>
