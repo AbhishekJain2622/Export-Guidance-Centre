@@ -17,12 +17,19 @@ import { motion, AnimatePresence } from "framer-motion"
 import JSZip from "jszip"
 import { saveAs } from "file-saver"
 
-interface VideoSegment {
+interface VideoItem {
   id: string
   title: string
   description: string
   duration: string
   videoUrl: string
+}
+
+interface VideoSegment {
+  id: string
+  title: string
+  description: string
+  videos: VideoItem[]
   documents: DocumentItem[]
 }
 
@@ -41,6 +48,7 @@ export function VideoSection() {
   const [showVideoModal, setShowVideoModal] = useState(false)
   const [videoUnlocked, setVideoUnlocked] = useState(false)
   const [downloadingAll, setDownloadingAll] = useState(false)
+  const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null)
 
   const correctPassword = "export2023"
 
@@ -49,8 +57,36 @@ export function VideoSection() {
       id: "segment1",
       title: "Introduction to Export Documentation",
       description: "Learn the basics of export documentation requirements",
-      duration: "12:45",
-      videoUrl: "/sigment-1/Starting export import-001.mp4",
+      videos: [
+        {
+          id: "video1-1",
+          title: "Starting Export Import",
+          description: "Introduction to export import organization",
+          duration: "5:12",
+          videoUrl: "/sigment-1/Starting export import-001.mp4"
+        },
+        {
+          id: "video1-2",
+          title: "Product Selection",
+          description: "How to select products for export",
+          duration: "7:45",
+          videoUrl: "/sigment-1/2. SELECTION OF PRODUCT FOR EXPORT.mp4"
+        },
+        {
+          id: "video1-3",
+          title: "International Marketing",
+          description: "Marketing strategies for international markets",
+          duration: "10:30",
+          videoUrl: "/sigment-1/3. INTERNATIONAL MARKETING.mp4"
+        },
+        {
+          id: "video1-4",
+          title: "Export Contract Preparation",
+          description: "Preparing export contracts with terms",
+          duration: "8:22",
+          videoUrl: "/sigment-1/4. PREPARING EXPORT CONTRACT.mp4"
+        }
+      ],
       documents: [
         { id: "doc1-1", title: "STARTING EXPORT", description: "STARTING EXPORT IMPORT ORGANISATION", fileUrl: "/1.pdf" },
         { id: "doc1-2", title: "SELECTION OF PRODUCT", description: "SELECTION OF PRODUCT FOR EXPORT", fileUrl: "/sigment-1/2. SELECTION OF PRODUCT FOR EXPORT.pdf" },
@@ -62,23 +98,19 @@ export function VideoSection() {
       id: "segment2",
       title: "Customs Compliance",
       description: "Understanding customs regulations and procedures",
-      duration: "18:30",
-      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      videos: [
+        {
+          id: "video2-1",
+          title: "Customs Basics",
+          description: "Introduction to customs procedures",
+          duration: "12:18",
+          videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+        }
+      ],
       documents: [
         { id: "doc2-1", title: "HS Code Guide", description: "How to classify your products", fileUrl: "/sample.pdf" },
         { id: "doc2-2", title: "Customs Declaration Form", description: "Template for customs paperwork", fileUrl: "/sample.pdf" },
         { id: "doc2-3", title: "Regulations Handbook", description: "Latest customs regulations", fileUrl: "/sample.pdf" }
-      ]
-    },
-    {
-      id: "segment3",
-      title: "Shipping and Logistics",
-      description: "Managing international shipments and logistics",
-      duration: "15:20",
-      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      documents: [
-        { id: "doc3-1", title: "Incoterms Guide", description: "Explanation of all Incoterms 2020", fileUrl: "/sample.pdf" },
-        { id: "doc3-2", title: "Freight Calculator", description: "Tool for estimating shipping costs", fileUrl: "/sample.pdf" }
       ]
     }
   ]
@@ -88,6 +120,7 @@ export function VideoSection() {
     setVideoUnlocked(false)
     setPassword("")
     setError("")
+    setSelectedVideo(null)
   }
 
   const handleBackToSegments = () => {
@@ -103,7 +136,6 @@ export function VideoSection() {
     setTimeout(() => {
       if (password === correctPassword) {
         setVideoUnlocked(true)
-        setShowVideoModal(true)
       } else {
         setError("Incorrect password. Please try again.")
       }
@@ -111,11 +143,17 @@ export function VideoSection() {
     }, 1000)
   }
 
+  const handleOpenVideo = (video: VideoItem) => {
+    if (videoUnlocked) {
+      setSelectedVideo(video)
+      setShowVideoModal(true)
+    }
+  }
+
   const handleDownloadDocument = (document: DocumentItem) => {
     alert(`Downloading ${document.title}`)
   }
 
-  // Download all PDFs as a zip
   const handleDownloadAll = async () => {
     if (!selectedSegment) return
     setDownloadingAll(true)
@@ -137,6 +175,19 @@ export function VideoSection() {
     const content = await zip.generateAsync({ type: "blob" })
     saveAs(content, `${selectedSegment.title.replace(/\s+/g, "_")}_resources.zip`)
     setDownloadingAll(false)
+  }
+
+  const totalDuration = (segment: VideoSegment) => {
+    return segment.videos.reduce((total, video) => {
+      const [minutes, seconds] = video.duration.split(':').map(Number)
+      return total + minutes * 60 + seconds
+    }, 0)
+  }
+
+  const formatDuration = (seconds: number) => {
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${mins}:${secs < 10 ? '0' + secs : secs}`
   }
 
   return (
@@ -161,8 +212,10 @@ export function VideoSection() {
                   <CardDescription>{segment.description}</CardDescription>
                 </CardHeader>
                 <CardContent className="pb-2 flex justify-between items-center">
-                  <Badge>Duration: {segment.duration}</Badge>
-                  <Badge variant="outline" className="bg-blue-50 text-blue-600">{segment.documents.length} PDFs</Badge>
+                  <Badge>Duration: {formatDuration(totalDuration(segment))}</Badge>
+                  <Badge variant="outline" className="bg-blue-50 text-blue-600">
+                    {segment.videos.length} Videos
+                  </Badge>
                 </CardContent>
                 <CardFooter>
                   <Button className="w-full">View Content</Button>
@@ -181,27 +234,55 @@ export function VideoSection() {
                 <CardTitle>{selectedSegment.title}</CardTitle>
                 <CardDescription>{selectedSegment.description}</CardDescription>
                 <div className="flex gap-2 mt-2">
-                  <Badge>Duration: {selectedSegment.duration}</Badge>
-                  <Badge variant="outline" className="bg-blue-50 text-blue-600">{selectedSegment.documents.length} PDFs available</Badge>
+                  <Badge>Total Duration: {formatDuration(totalDuration(selectedSegment))}</Badge>
+                  <Badge variant="outline" className="bg-blue-50 text-blue-600">
+                    {selectedSegment.videos.length} Videos
+                  </Badge>
+                  <Badge variant="outline" className="bg-green-50 text-green-600">
+                    {selectedSegment.documents.length} PDFs
+                  </Badge>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
                   <div className="bg-blue-50 p-6 rounded-lg border border-blue-100">
                     <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                      <Video className="h-5 w-5 text-blue-600" /> Training Video
+                      <Video className="h-5 w-5 text-blue-600" /> Training Videos
                     </h3>
-                    <p className="text-gray-600 mb-4">This video content is password protected.</p>
-                    <form onSubmit={handleWatchVideo} className="flex gap-2">
-                      <div className="relative flex-1">
-                        <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                        <Input type="password" placeholder="Enter video password" className="pl-10" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    {!videoUnlocked ? (
+                      <>
+                        <p className="text-gray-600 mb-4">These video contents are password protected.</p>
+                        <form onSubmit={handleWatchVideo} className="flex gap-2">
+                          <div className="relative flex-1">
+                            <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                            <Input type="password" placeholder="Enter video password" className="pl-10" value={password} onChange={(e) => setPassword(e.target.value)} />
+                          </div>
+                          <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={isLoading || !password}>
+                            {isLoading ? "Unlocking..." : "Unlock Videos"}
+                          </Button>
+                        </form>
+                        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+                      </>
+                    ) : (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {selectedSegment.videos.map(video => (
+                          <Card key={video.id} className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => handleOpenVideo(video)}>
+                            <CardHeader className="pb-2">
+                              <CardTitle className="text-lg">{video.title}</CardTitle>
+                            </CardHeader>
+                            <CardContent className="pb-2">
+                              <CardDescription>{video.description}</CardDescription>
+                            </CardContent>
+                            <CardFooter className="flex justify-between items-center">
+                              <Badge variant="outline">{video.duration}</Badge>
+                              <Button variant="outline" size="sm">
+                                <Video className="h-4 w-4 mr-2" /> Watch
+                              </Button>
+                            </CardFooter>
+                          </Card>
+                        ))}
                       </div>
-                      <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={isLoading || !password}>
-                        {isLoading ? "Unlocking..." : "Watch Video"}
-                      </Button>
-                    </form>
-                    {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+                    )}
                   </div>
                   <div>
                     <div className="flex justify-end mb-4">
@@ -215,27 +296,7 @@ export function VideoSection() {
                         {downloadingAll ? "Preparing ZIP..." : "Download All PDFs (ZIP)"}
                       </Button>
                     </div>
-                    {/* <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                      <Download className="h-5 w-5 text-green-600" /> Download Resources
-                    </h3>
-                    <p className="text-gray-600 mb-4">All supporting documents are free to download.</p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {selectedSegment.documents.map(document => (
-                        <Card key={document.id} className="hover:shadow-md transition-shadow">
-                          <CardHeader className="pb-2">
-                            <CardTitle className="text-lg">{document.title}</CardTitle>
-                          </CardHeader>
-                          <CardContent className="pb-2">
-                            <CardDescription>{document.description}</CardDescription>
-                          </CardContent>
-                          <CardFooter>
-                            <Button variant="outline" className="w-full" onClick={() => handleDownloadDocument(document)}>
-                              <Download className="h-4 w-4 mr-2" /> Download PDF
-                            </Button>
-                          </CardFooter>
-                        </Card>
-                      ))}
-                    </div> */}
+                   
                   </div>
                 </div>
               </CardContent>
@@ -244,7 +305,7 @@ export function VideoSection() {
         )}
 
         <AnimatePresence>
-          {showVideoModal && (
+          {showVideoModal && selectedVideo && (
             <Dialog open={showVideoModal} onOpenChange={setShowVideoModal}>
               <DialogContent className="max-w-4xl p-0 bg-transparent shadow-none border-none">
                 <motion.div
@@ -262,35 +323,24 @@ export function VideoSection() {
                     <X className="h-5 w-5 text-gray-700" />
                   </button>
                   <DialogHeader className="p-8 pb-4">
-                    <DialogTitle className="text-2xl font-bold">{selectedSegment?.title}</DialogTitle>
-                    <DialogDescription className="text-gray-600">{selectedSegment?.description}</DialogDescription>
+                    <DialogTitle className="text-2xl font-bold">{selectedVideo.title}</DialogTitle>
+                    <DialogDescription className="text-gray-600">{selectedVideo.description}</DialogDescription>
                   </DialogHeader>
                   <div className="aspect-video w-full bg-black rounded-b-xl overflow-hidden flex items-center justify-center">
-                    {videoUnlocked ? (
-                      <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4 }}
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4 }}
+                      className="w-full h-full"
+                    >
+                      <iframe
+                        src={selectedVideo.videoUrl}
                         className="w-full h-full"
-                      >
-                        <iframe
-                          src={selectedSegment?.videoUrl}
-                          className="w-full h-full"
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        ></iframe>
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4 }}
-                        className="w-full h-full flex items-center justify-center text-white"
-                      >
-                        Enter password to unlock video
-                      </motion.div>
-                    )}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                    </motion.div>
                   </div>
                 </motion.div>
               </DialogContent>

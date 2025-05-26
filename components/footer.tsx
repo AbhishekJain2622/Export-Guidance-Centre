@@ -91,8 +91,8 @@ export function Footer() {
 
         <div className="border-t border-gray-800 pt-8 text-center">
  <p>
-  © {new Date().getFullYear()}{" "}
-  <span style={{ color: "rgb(211, 47, 47)" }}>Export Guidance Centre.</span>{" "}
+  © {new Date().getFullYear()}{" "} All rights reserved
+ <span style={{ color: "rgb(211, 47, 47)" }}> Export Guidance Centre.</span>{" "}
   Powered by{" "}
   <a
     href="https://codestudios.in/"
@@ -103,7 +103,6 @@ export function Footer() {
   >
     Code Studio
   </a>{" "}
-  All rights reserved.
 </p>
         </div>
       </div>
